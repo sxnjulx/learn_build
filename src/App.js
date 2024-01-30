@@ -1,7 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [backendUrl , setBackendUrl] = useState(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/app-config.json');
+        const data = await response.json();
+        setBackendUrl(data.backendUrl);
+      } catch (error) {
+        console.error('Error fetching app-config.json:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +35,12 @@ function App() {
           Learn React
         </a>
       </header>
+      <div>
+        <p>this is the url displaying sgement</p>
+        <h1>{backendUrl}</h1>
+
+      </div>
+
     </div>
   );
 }
